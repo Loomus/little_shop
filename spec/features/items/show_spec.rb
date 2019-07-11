@@ -21,5 +21,14 @@ RSpec.describe 'Item Show Page' do
       expect(page).to have_content("Sold by: #{@megan.name}")
       expect(page).to have_link(@megan.name)
     end
+
+
+    it 'I can see a list of all items' do
+      @review_1 = @ogre.reviews.create!(title: 'Good Hippo', content: "The Hippo was good", rating: 4 )
+      visit "/items/#{@ogre.id}"
+        expect(page).to have_content(@review_1.rating)
+        expect(page).to have_content(@review_1.title)
+        expect(page).to have_content(@review_1.content)
+    end
   end
 end

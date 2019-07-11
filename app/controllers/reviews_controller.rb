@@ -1,25 +1,15 @@
 class ReviewsController < ApplicationController
-  def index
-    @item = Item.find(params[:item_id])
-    @reviews = @item.reviews
-    @average_review = @reviews.average_rating
-  end
-
-  def show
-    @review = Review.find(params[:id])
-  end
 
   def new
     @item = Item.find(params[:item_id])
   end
 
-
   def create
     item = Item.find(params[:item_id])
     review = item.reviews.create(review_params)
     if review.id.nil?
-      flash[:alert] = review.errors.full_messages.to_sentence
-      redirect_to "/items/#{item.id}/reviews/new"
+      flash.now[:error] = review.errors.full_messages.to_sentence
+      redirect_to "/items/#{item.id}/reviews/#{review.id}/new"
     else
       redirect_to "/items/#{item.id}"
     end
@@ -33,7 +23,7 @@ class ReviewsController < ApplicationController
     review = Review.find(params[:id])
      review.update(review_params)
     if review.content.empty? || review.content.empty?
-      flash[:alert] = review.errors.full_messages.to_sentence
+      render :new
     else
       redirect_to "/items/#{review.item_id}"
     end

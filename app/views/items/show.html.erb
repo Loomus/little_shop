@@ -26,7 +26,7 @@
 <h3>Average Rating:</h4>  <%= @item.average_rating%>
 <br>
 <h3>All Reviews</h3>
-          <% @item.reviews.each do |review|%>
+      <% @item.reviews.each do |review|%>
 					<div class="pull-right" style="margin-left:10px;">0</div>
 				</div>
 			</div>
@@ -76,35 +76,3 @@
 <%= link_to 'New Review', new_item_review_path(@item.id) %>
 <%= link_to 'Update Item', "/items/#{@item.id}/edit" %>
 <%= link_to 'Delete', "/items/#{@item.id}", method: :delete %>
-
-
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th> <u>Best Reviews</u></th>
-      <th><u>Worst Reviews</u></th>
-      <th> <u>Average Rating</u></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><%= item.name %></td>
-      <td> <%= quantity %> </td>
-      <td><%= button_to "Add", "/cart/#{item.id}/add", method: :patch, class:"btn btn-info" %></td>
-      <td><%= button_to "Sub", "/cart/#{item.id}", method: :patch, class:"btn btn-info"%></td>
-      <td><%= item.price %></td>
-      <td><%= item.price * quantity %></td>
-      <td><%= button_to "/cart/#{item.id}", method: :delete, class: "btn btn-danger btn-labeled" do %>
-        <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span> Delete
-        <% end  %>
-      </td>
-    </tr>
-
-  </tbody>
-  <% end  %></div>
-<tfoot align="right"> <tr>
- <td><%= button_to "Checkout", new_order_path, method: :get, class: "btn btn-success " %></td>
-</tr>
-  </tfoot>
-</table>
-</div>

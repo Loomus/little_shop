@@ -36,8 +36,8 @@ class ItemsController < ApplicationController
       flash[:success] = "#{@item.name} has been updated!"
     redirect_to "/items/#{@item.id}"
   else
-    flash[:error].now = @item.errors.full_messages.to_sentence
-      render :edit
+    flash[:error]= @item.errors.full_messages.to_sentence
+    redirect_to  "/items/#{@item.id}/edit"
   end
   end
 
