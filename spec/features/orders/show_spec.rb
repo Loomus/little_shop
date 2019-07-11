@@ -43,7 +43,39 @@ RSpec.describe "Order Show Page" do
         expect(page).to have_content(@order_item_1.quantity)
         expect(page).to have_content("Subtotal: #{new_order_item.subtotal}")
         expect(page).to have_content("Grand Total: #{new_order.grand_total}")
+
+
       end
     end
+
+    it "Flash Message Appears when a field is not filled out" do
+    name = "John Smith"
+    address = "123 Donut St"
+    city = "Denver"
+    state = "CO"
+    zip = 22222
+
+    @megan = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
+
+    @ogre = @megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
+
+    @order_1 = Order.create!(name: 'John Smith', address: '123 Donut St', city: 'Denver', state: 'CO', zip: 22222)
+
+    @order_item_1 = OrderItem.create!(item: @ogre, order: @order_1, price: @ogre.price, quantity: 2)
+
+    visit item_path(@ogre)
+    click_button "Add to Cart"
+    visit cart_path
+    click_button "Checkout"
+    visit new_order_path
+
+    fill_in 'Name', with: ""
+    fill_in 'Address', with: address
+    fill_in 'City', with: city
+    fill_in 'State', with: state
+    fill_in 'Zip', with: zip
+    click_button 'Create Order'
+    expect(page).to have_content("The form must be completed to create an order")
+  end
   end
 end
