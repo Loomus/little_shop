@@ -39,6 +39,15 @@ RSpec.describe 'Existing Merchant Update' do
         expect(page).to have_content(address)
         expect(page).to have_content("#{city} #{state} #{zip}")
       end
+
+      visit '/merchants/new'
+      fill_in 'Name', with: ""
+      fill_in 'Address', with: ""
+      fill_in 'City', with: ""
+      fill_in 'State', with: ""
+      fill_in 'Zip', with: ""
+      click_button 'Create Merchant'
+      expect(page).to have_content("Name can't be blank, Address can't be blank, City can't be blank, State can't be blank, and Zip can't be blank")
     end
   end
 end
